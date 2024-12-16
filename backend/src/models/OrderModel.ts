@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { CourseEnum } from "../enums/course.enum";
 import { CourseFormatEnum } from "../enums/course-format.enum";
 import { CourseTypeEnum } from "../enums/course-type.enum";
+import { StatusEnum } from "../enums/status.enum";
 import { IOrderInterface } from "../interfaces/order.interface";
 
 const { Schema } = mongoose;
@@ -19,9 +20,10 @@ const orderSchema = new Schema(
     course_type: { type: String, enum: CourseTypeEnum, required: true },
     sum: { type: Number, default: null },
     already_paid: { type: Number, default: null },
+    created_at: { type: Date, required: true },
+    status: { type: String, enum: StatusEnum, required: true },
   },
   {
-    timestamps: true,
     versionKey: false,
     collection: "orders",
   },

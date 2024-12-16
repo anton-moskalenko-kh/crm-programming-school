@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 
 import { ILogin } from "../interfaces/manager.interface";
+import { ITokenPayload } from "../interfaces/token.interface";
 import { ManagerPresenter } from "../presenters/manager.presenter";
 import { authService } from "../services/auth.service";
-import {ITokenPayload} from "../interfaces/token.interface";
 
 class AuthController {
   public async signIn(req: Request, res: Response, next: NextFunction) {
