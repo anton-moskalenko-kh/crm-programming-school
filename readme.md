@@ -18,8 +18,14 @@ Before launching the project, make sure you have Docker and Docker Compose insta
     git clone https://githubcom/anton-moskalenko-kh/crm-programming-school.git
     ```
 
-2. Install all necessary dependencies:
+2. Install all necessary dependencies in the folder backend and frontend:
     ```bash
+   cd backend
+    npm install
+    ```
+   ```bash
+    cd .. 
+    cd frontend
     npm install
     ```
 
@@ -29,24 +35,20 @@ Before launching the project, make sure you have Docker and Docker Compose insta
 4. Open the Docker Compose file and for the app container replace <PORT> with the port number you specified in the .env configuration file.
  ports: "8888:Your PORT" 
 
-
-5. Navigate to the project root directory::
-    ```bash
-    cd CRM Programming School
-    ```
-6. Build and launch the project using Docker Compose:
+   
+5. Build and launch the project using Docker Compose:
    ```bash
     docker-compose up --build
     ```
-7. After the build is complete, the project will be available at:
+6. After the build is complete, the project will be available at:
    ```bash
-    http://localhost:8888
+    http://localhost:80
     ```
 
 
 ## Usage
 
-In order to see and test all available endpoints you can use Swagger running at http://localhost:8888/api/docs or Postman Collection (import file CRM Programming School.postman_collection.json from root directory to your Postman application)
+In order to see and test all available endpoints you can use Swagger running at http://localhost:80/api/docs/ or Postman Collection (import file CRM Programming School.postman_collection.json from root directory to your Postman application)
  
 
 
