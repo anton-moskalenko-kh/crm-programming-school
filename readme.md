@@ -27,7 +27,7 @@ Before launching the project, make sure you have Docker and Docker Compose insta
    
 
 4. Open the Docker Compose file and for the app container replace <PORT> with the port number you specified in the .env configuration file.
- ports: "8888:<PORT>" 
+ ports: "8888:Your PORT" 
 
 
 5. Navigate to the project root directory::
