@@ -24,12 +24,10 @@ Before launching the project, make sure you have Docker and Docker Compose insta
     ```
 
 3. Create `.env` file in the root directory. Necessary variables for project you will find in .env example file. Replace data in empty variables for your own or contact with me.
-   ```
    
+
 4. Open the Docker Compose file and for the app container replace <PORT> with the port number you specified in the .env configuration file.
-   ports:
-   "8888:<PORT>"
-   ```
+ ports: "8888:<PORT>" 
 
 
 5. Navigate to the project root directory::
