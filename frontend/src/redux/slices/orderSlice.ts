@@ -15,8 +15,8 @@ interface FetchOrdersParams {
   sortOrder: string;
 }
 
-export const fetchOrders = createAsyncThunk(
-  'orders/fetchOrders',
+export const getOrders = createAsyncThunk(
+  'orders/getOrders',
   async ({ currentPage, sortBy, sortOrder }: FetchOrdersParams, thunkAPI) => {
     try {
       const response = await ordersService.getOrders(currentPage, sortBy, sortOrder);
@@ -40,12 +40,12 @@ export const ordersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchOrders.fulfilled, (state, action: PayloadAction<any>) => {
+      .addCase(getOrders.fulfilled, (state, action: PayloadAction<any>) => {
         state.orders = action.payload.data;
         state.totalPages = Math.ceil(action.payload.total / (action.payload.limit || 25));
         state.error = null
       })
-      .addCase(fetchOrders.rejected, (state, action) => {
+      .addCase(getOrders.rejected, (state, action) => {
         state.error = action.error.message || 'Error occurred';
       });
   },
@@ -53,5 +53,5 @@ export const ordersSlice = createSlice({
 
 export const ordersActions = {
   ...ordersSlice.actions,
-  fetchOrders
+  getOrders
 }

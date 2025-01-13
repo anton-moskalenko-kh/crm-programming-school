@@ -1,5 +1,5 @@
 import React, {FC, useState} from 'react';
-import {IOrderModel} from "../../models/IOrderModel";
+import {IOrderModel, IUpdatedOrder} from "../../models/IOrderModel";
 import {useForm} from "react-hook-form";
 import {IComment, ICommentData} from "../../models/ICommentModel";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
@@ -7,7 +7,7 @@ import {ordersService} from "../../services/orders.api.service";
 import styles from './OrderDetails.module.css';
 import {formatDate} from "../../_helpers/helpers";
 import {useSearchParams} from "react-router-dom";
-import {ordersActions} from "../../redux/slices/orderSlice";
+import {getOrders, ordersActions} from "../../redux/slices/orderSlice";
 import ModalEdit from "../ModalEdit/ModalEdit";
 
 interface IOrderDetailsProps {
@@ -40,7 +40,7 @@ const OrderDetails: FC<IOrderDetailsProps> = ({order}) => {
         try {
           const comments = await ordersService.addCommentToOrder(commentData)
           setComments(comments);
-          await dispatch(ordersActions.fetchOrders({currentPage, sortBy, sortOrder}))
+          await dispatch(ordersActions.getOrders({currentPage, sortBy, sortOrder}))
           reset();
         } catch (e) {
           console.error('Error sending comment', e);
@@ -51,6 +51,7 @@ const OrderDetails: FC<IOrderDetailsProps> = ({order}) => {
       reset();
     }
   }
+
   const openModal = () => {
     if (order.manager === null || manager === order.manager) {
       setIsModalOpen(true);
@@ -92,7 +93,7 @@ const OrderDetails: FC<IOrderDetailsProps> = ({order}) => {
         {errorEdit && <div className={styles.errorEdit}>It's not your order</div>}
       </div>
 
-      {isModalOpen && <ModalEdit order={order} closeModal={closeModal} />}
+      {isModalOpen && <ModalEdit order={order} closeModal={closeModal} manager={manager} />}
 
     </div>
   );
