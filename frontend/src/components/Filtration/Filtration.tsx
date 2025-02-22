@@ -46,12 +46,14 @@ const Filtration = () => {
     age: '',
   });
   const [isReset, setIsReset] = useState(false);
+  const [isSearchTextChanged, setIsSearchTextChanged] = useState(false);
   const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const {groups} = useAppSelector(state => state.groups)
   const manager = useAppSelector(state => state.manager.data?.data.surname)
   const {orders, totalPages} = useAppSelector(state => state.orders)
 
+  const page = searchParams.get('page') || '1';
   const sortBy = searchParams.get('sortBy') || 'created_at';
   const sortOrder = searchParams.get('sortOrder') || 'desc';
 
@@ -75,6 +77,7 @@ const Filtration = () => {
     const timeout = setTimeout(() => {
       const updatedFilters: Record<string, any> = {
         ...Object.fromEntries(searchParams.entries()),
+        page: isSearchTextChanged ? '1' : page,
         sortBy,
         sortOrder,
       };
@@ -87,16 +90,11 @@ const Filtration = () => {
         }
       });
 
-      const isFiltering = Object.values(searchText).some(value => value.trim()) ||
-        Object.values(filters).some(value => value !== '' && value !== false);
-
-      updatedFilters.page = isFiltering ? '1' : searchParams.get("page") || '1';
-
       setSearchParams(updatedFilters);
     }, 500);
 
     return () => clearTimeout(timeout);
-  }, [searchText]);
+  }, [searchText, isSearchTextChanged]);
 
   useEffect(() => {
     const initialSearchText = {
@@ -125,13 +123,15 @@ const Filtration = () => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setSearchText((prev) => ({ ...prev, [name]: value }));
+    setSearchText((prev) => {
+      setIsSearchTextChanged(true);
+      return { ...prev, [name]: value };
+    });
   };
 
   const handleFilterChange = (name: string, value: string | boolean) => {
     const updatedFilters: Record<string, any> = {
       ...Object.fromEntries(searchParams.entries()),
-      page: '1',
       sortBy,
       sortOrder,
     };
@@ -149,12 +149,14 @@ const Filtration = () => {
       }
     }
 
+    updatedFilters.page = '1';
     setFilters((prev) => ({ ...prev, [name]: value }));
     setSearchParams(updatedFilters);
   };
 
   const handleResetFilters = () => {
     setIsReset(true);
+    setIsSearchTextChanged(false);
 
     const defaultParams = {
       page: '1',
