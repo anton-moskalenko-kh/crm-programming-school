@@ -8,12 +8,14 @@ import { ITokenPair, ITokenPayload } from "../interfaces/token.interface";
 class TokenService {
   public async generateTokenPair(payload: ITokenPayload): Promise<ITokenPair> {
     const accessToken = jsonwebtoken.sign(payload, configs.JWT_ACCESS_SECRET, {
-      expiresIn: configs.JWT_ACCESS_EXPIRES_IN,
-    });
+      expiresIn: String(configs.JWT_ACCESS_EXPIRES_IN),
+    } as jsonwebtoken.SignOptions);
     const refreshToken = jsonwebtoken.sign(
       payload,
       configs.JWT_REFRESH_SECRET,
-      { expiresIn: configs.JWT_REFRESH_EXPIRES_IN },
+      {
+        expiresIn: String(configs.JWT_ACCESS_EXPIRES_IN),
+      } as jsonwebtoken.SignOptions,
     );
     return {
       accessToken,

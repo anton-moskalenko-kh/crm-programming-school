@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ path: "../.env" });
 
 export const configs = {
   APP_PORT: Number(process.env.APP_PORT),
